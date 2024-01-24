@@ -6,10 +6,6 @@
 
 using namespace std;
 
-bool comp(string a, string b){
-    return a < b;
-}
-
 int main(){
     // cin, cout 속도 향상
     ios::sync_with_stdio(false);
