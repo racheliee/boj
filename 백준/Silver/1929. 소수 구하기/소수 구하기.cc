@@ -38,3 +38,38 @@ int main(){
 
     return 0;
 }
+
+/** someone else's code that runs extremely fast
+#include<stdio.h>
+#include<string.h>
+#include<algorithm>
+#include<iostream>
+#include<vector>
+#include<math.h>
+using namespace std;
+int a[1000001] = {0,};//1지워짐 0안지워짐
+int main()
+{
+    int n,m;
+    scanf("%d %d", &n, &m);
+    a[1] = 1;
+    for (int i = 2; i <= m; i++)
+    {
+        if (a[i] == 1)
+        {
+            continue;
+        }
+        for (int j = i*2; j <= m; j = j + i)
+        {
+            a[j] = 1;
+        }
+    }
+    for (int i = n; i <= m; i++)
+    {
+        if (a[i] == 0)
+        {
+            printf("%d\n", i);
+        }
+    }
+}
+*/
