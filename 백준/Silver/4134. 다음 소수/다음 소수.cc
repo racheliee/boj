@@ -33,6 +33,9 @@ int main(){
 
         num = (num % 2 == 0 && num != 2)? num+1 : num;
         num = (num == 1)? 2 : num;
+        // alternate method
+        // if (n<=2) { return 2; }
+        // n += 1-n%2;   
         while(!is_prime(num)){
             num+=2;
         }
