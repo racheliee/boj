@@ -18,7 +18,7 @@ int main(){
 
     int length = str.length();
     for(int i = 1; i <= length; i++){ //i = length
-        for(int j = 0; j < length; j++){ //j = start index
+        for(int j = 0; j < length-i+1; j++){ //j = start index
             //substring in c++ is string.substr(start index, length)
             substr.insert(str.substr(j, i));
         }
