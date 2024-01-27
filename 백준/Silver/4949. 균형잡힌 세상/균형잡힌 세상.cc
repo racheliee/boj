@@ -10,23 +10,18 @@ string is_vps(string vps){
     stack<char> stack; //LIFO
 
     for(int i = 0; i < vps.length(); i++){
-        if(vps[i] == '('){
-            stack.push('(');
+        if(vps[i] == '(' || vps[i] == '['){
+            stack.push(vps[i]);
         }else if(vps[i] == ')'){
             if(stack.empty() || stack.top() != '(') {
                 return "no\n";
             }
-            else{
-                stack.pop();
-            }
-        }else if(vps[i] == '['){
-            stack.push('[');
+            stack.pop();
         }else if(vps[i] == ']'){
             if(stack.empty() || stack.top() != '[') {
                 return "no\n";
-            }else{
-                stack.pop();
             }
+            stack.pop();
         }
     }
 
