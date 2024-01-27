@@ -16,6 +16,7 @@ int main(){
     cin >> n;
 
     list<int> stack; //LIFO
+    // turns out stack<int> exists (it's faster)
 
     while(n){
         n--;
