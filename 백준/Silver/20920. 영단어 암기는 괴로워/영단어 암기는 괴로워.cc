@@ -33,14 +33,8 @@ int main(){
         
         cin >> vocab;
 
-        if(vocab.length() < m){
-            continue;
-        }else{
-            if(vocab_map.find(vocab) == vocab_map.end()){ //not found yet
-                vocab_map[vocab] = 1;
-            }else{ //vocab word exists
-                vocab_map[vocab]++;
-            }
+        if(vocab.length() >= m){
+            vocab_map[vocab]++;
         }
     }
 
