@@ -6,16 +6,6 @@
 
 using namespace std;
 
-bool compare(const pair<string, int> a, const pair<string, int> b){
-    if(a.second != b.second){ //num of occurences are different
-        return a.second > b.second;
-    }else if(a.first.length() != b.first.length()){ //length is different
-        return a.first.length() > b.first.length();
-    }else{
-        return a.first < b.first;
-    }
-}
-
 int main(){
     // cin, cout 속도 향상s
     ios::sync_with_stdio(false);
