@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
-#include <set>
+#include <unordered_set>
 
 using namespace std;
 
@@ -15,7 +15,7 @@ int main(){
     int n;
     cin >> n;
 
-    set<string> members;
+    unordered_set<string> members;
 
     string entered;
     int count = 0;
@@ -26,10 +26,11 @@ int main(){
 
         if(entered == "ENTER"){
             count += members.size();
-            members.clear();
+            members = unordered_set<string>(); //members.clear() takes a lot of time
             continue;
+        }else {
+            members.insert(entered);
         }
-        members.insert(entered);
     }
 
     count += members.size();
