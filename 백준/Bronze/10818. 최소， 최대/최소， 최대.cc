@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std; 
 
@@ -11,13 +12,14 @@ int main(){
     cin >> n;
 
     int num;
-    int min = 1000001;
-    int max = -1000001;
-    for(int i = 0; i < n; i++){
+    int min_v = 1000001;
+    int max_v = -1000001;
+    while(n){
+        n--;
         cin >> num;
-        min = num < min ? num : min;
-        max = num > max ? num : max;
+        min_v = min(num, min_v);
+        max_v = max(num, max_v);
     }
 
-    cout << min << " " << max;
+    cout << min_v << " " << max_v;
 }
