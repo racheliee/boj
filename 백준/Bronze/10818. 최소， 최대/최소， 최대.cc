@@ -1,10 +1,4 @@
 #include <iostream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <cmath>
-#include <deque>
-#include <string.h>
 
 using namespace std; 
 
@@ -16,15 +10,14 @@ int main(){
     int n;
     cin >> n;
 
-    vector<int> arr(n);
-
+    int num;
+    int min = 1000001;
+    int max = -1000001;
     for(int i = 0; i < n; i++){
-        cin >> arr[i];
+        cin >> num;
+        min = num < min ? num : min;
+        max = num > max ? num : max;
     }
 
-    sort(arr.begin(), arr.end());
-
-    cout << arr[0] << " " << arr[n-1];
-
-    
+    cout << min << " " << max;
 }
