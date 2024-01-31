@@ -7,18 +7,16 @@ int main(){
     cin.tie(0);
     cout.tie(0);
 
-    int n, num;
+    int n, m;
     cin >> n;
 
-    int min_v = 1000001;
-    int max_v = -1000001;
+    int mi = 1000001, ma = -1000001;;
     
-    while(n){
-        n--;
-        cin >> num;
-        if(num > max_v) max_v = num;
-        if(num < min_v) min_v = num;
+    for(int i = 0; i < n; i++){
+        cin >> m;
+        if(m > ma) ma = m;
+        if(m < mi) mi = m;
     }
 
-    cout << min_v << " " << max_v;
+    cout << mi << " " << ma;
 }
