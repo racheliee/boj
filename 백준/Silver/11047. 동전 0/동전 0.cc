@@ -20,10 +20,8 @@ void coins(){
 
     int num_coins = 0;
     for(int i = n-1; i > -1; i--){
-        while(k-arr[i] >= 0){
-            k -= arr[i];
-            num_coins++;
-        }
+        num_coins += k/arr[i];
+        k %= arr[i];
     }
 
     cout << num_coins;
