@@ -18,10 +18,10 @@ int main() {
 
     for(int i = 0; i < n; i++){
         cin >> v[i];
-        // if(i < k) sum[0] += v[i];
+        if(i < k) sum[0] += v[i];
     }
 
-    sum[0] = accumulate(v.begin(), next(v.begin(), k), 0);
+    // sum[0] = accumulate(v.begin(), next(v.begin(), k), 0);
 
     int i = k;
     int j = 1;
