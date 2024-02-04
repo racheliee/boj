@@ -15,21 +15,21 @@ void print() {
     int n;
     cin >> n;
 
-    int d[n - 1];
-    int p[n - 1]; // last city's gas price will not be used
+    long long int d[n - 1];
+    long long int p[n - 1]; // last city's gas price will not be used
 
     for (int i = 0; i < n - 1; i++)
         cin >> d[i];
     for (int i = 0; i < n - 1; i++)
         cin >> p[i];
 
-    int *min_price = min_element(p, p + n - 1);
-    int price = 0;
-    for (int i = 0; i < n - 1; i++) {
-        if (p[i] == *min_price) {
-            price += p[i] * accumulate(d + i, d + n - 1, 0);
-            break;
-        } else {
+    int curr_p = p[0];
+    int price = p[0]*d[0];
+    for (int i = 1; i < n - 1; i++) {
+        if (curr_p < p[i]) { //if current price is lower, keep current price
+            price += curr_p * d[i];
+        } else {  //encounter a lower price, use the new one.
+            curr_p = p[i];
             price += p[i] * d[i];
         }
     }
