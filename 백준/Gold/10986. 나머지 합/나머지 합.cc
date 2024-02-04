@@ -5,6 +5,9 @@
 
 using namespace std;
 
+long long int s[1000001];
+long long int mod[1001] = {0};
+
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
@@ -13,12 +16,12 @@ int main() {
     int n, m;
     cin >> n >> m;
 
-    vector<long long int> s(n);
-    unordered_map<long long int, long long int> mod(m); // PrefixSum[j] - PrefixSum[i] ) % MOD = 0 이 만족한다면
-                                    // PrefixSum[j] % MOD = PrefixSum[i] % MOD 도 만족하게 된다.
+    // PrefixSum[j] - PrefixSum[i] ) % MOD = 0 이 만족한다면
+    // PrefixSum[j] % MOD = PrefixSum[i] % MOD 도 만족하게 된다.
 
     cin >> s[0];
     mod[s[0]%m]++;
+    
     for(size_t i = 1; i < n; i++){
         cin >> s[i];
         s[i] += s[i-1];
