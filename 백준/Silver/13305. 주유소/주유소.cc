@@ -23,8 +23,8 @@ void print() {
     for (int i = 0; i < n - 1; i++)
         cin >> p[i];
 
-    int curr_p = p[0];
-    int price = p[0]*d[0];
+    long long int curr_p = p[0];
+    long long int price = p[0]*d[0];
     for (int i = 1; i < n - 1; i++) {
         if (curr_p < p[i]) { //if current price is lower, keep current price
             price += curr_p * d[i];
