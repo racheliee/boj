@@ -6,11 +6,10 @@
 using namespace std;
 
 int n, c;
-// long long max_num = 0;
 long long* nums;
 
 bool is_valid_length(long long m){
-    long long count = 1;
+    long long count = 1; //starts w 1 to include the last one
     int i = 0;
     int j = 1;
     int next_house = nums[0] + m;
@@ -18,7 +17,6 @@ bool is_valid_length(long long m){
     while(i < n){
         while(j < n){
             if(nums[j] >= next_house){
-                // cout << nums[i] << " " << nums[j] << endl;
                 count++;
                 break;
             }
@@ -36,14 +34,13 @@ void parametric_search(){
     sort(nums, nums+n);
 
     long long distance;
-    long long left = 1; //랜선의길이 must be at least 1
+    long long left = 1; //distance must be at least 1
     long long right = nums[n-1];
     long long res = 1;
     
     // similar to binary search
     while(left <= right){
         distance = (left+right)/2;
-        // cout << "distance " << distance << endl;
 
         if(is_valid_length(distance)){ //여기서 param check (different from binary search)
             res = res < distance ? distance : res;
@@ -66,7 +63,6 @@ int main() {
     nums = (long long*)malloc(n*sizeof(long long));
     for(int i = 0; i < n; ++i){
         cin >> nums[i];
-        // if(max_num < nums[i]) max_num = nums[i]; //don't sort, just get the max
     }
 
     parametric_search();
