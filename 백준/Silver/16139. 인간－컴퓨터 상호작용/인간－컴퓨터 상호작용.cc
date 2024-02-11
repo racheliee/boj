@@ -5,6 +5,9 @@ using namespace std;
 
 string str;
 int q, l, r, sum;
+int alphabet[26][200001] = {
+    0,
+};
 char a;
 
 int main() {
@@ -14,17 +17,25 @@ int main() {
 
     cin >> str >> q;
 
-    while(q--){
-        cin >> a >> l >> r;
-        sum = 0;
-        for(int i = l; i <= r; i++){
-            if(str[i] == a){
-                sum++;
+    alphabet[str[0] - 97][0] = 1;
+    for (int i = 1; i < str.length(); i++) {
+        for (int j = 0; j < 26; j++) {
+            if (str[i] - 97 == j) {
+                alphabet[j][i] = alphabet[j][i - 1] + 1;
+            } else {
+                alphabet[j][i] = alphabet[j][i - 1];
             }
         }
-        cout << sum << endl;
     }
 
+    while (q--) {
+        cin >> a >> l >> r;
+        sum = alphabet[a - 97][r] - alphabet[a - 97][l - 1];
+        if (sum < 0)
+            cout << 0 << endl;
+        else
+            cout << sum << endl;
+    }
 
     return 0;
 }
