@@ -23,10 +23,6 @@ void closestPair() {
 
     partial_sum(arr.begin(), arr.end(), sum.begin() + 1); //+1 so the first element can be 0
 
-    // for (int i = 0; i < n + 1; i++) {
-    //     cout << sum[i] << " ";
-    // } cout << endl;
-
     int min_num = INT_MAX;
 
     int i = 0;
@@ -35,17 +31,15 @@ void closestPair() {
 
     while (i < j && j < n+1) {
         series_sum = sum[j] - sum[i];
-        // cout << series_sum << " ";
 
         if (series_sum >= s) {
             if (j - i < min_num) {
                 min_num = j - i;
             }
-            // cout << "min: " << min_num << " i: " << i << " j: " << j << endl;
         }
 
         // pointers need to move towards each other
-        if (series_sum < s) { // if the sum is larger than s, decrease j for a smaller sum
+        if (series_sum < s) { // if the sum is less than s, increase j for a larger sum
             j++;
         } else {
             i++;
