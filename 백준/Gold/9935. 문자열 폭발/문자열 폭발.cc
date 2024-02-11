@@ -8,46 +8,33 @@ int main() {
     cin.tie(NULL);
     cout.tie(NULL);
 
-    string str, bomb, t;
+    string str, bomb;
     cin >> str >> bomb;
 
     int s_len = str.length();
     int b_len = bomb.length();
 
-    stack<char> s;
+    string s = "";
 
     for(int i = 0; i < s_len; i++){
-        s.push(str[i]);
+        s += str[i];
 
-        if(s.top() == bomb[b_len-1] && s.size() >= b_len){
-            t = "";
+        if(s.size() >= b_len && s[s.length()-1] == bomb[b_len-1]){
+            bool is_bomb = true;
+
             for(int j = 0; j < b_len; j++){
-                t += s.top();
-                s.pop();
-            }
-
-            reverse(t.begin(), t.end());
-
-            if(t != bomb){
-                for(int j = 0; j < b_len; j++){
-                    s.push(t[j]);
+                if(s[s.size()-b_len+j] != bomb[j]){
+                    is_bomb = false;
+                    break;
                 }
             }
+
+            if(is_bomb) s.erase(s.end()-b_len, s.end());
         }
     }
 
     if(s.empty()) cout << "FRULA";
-    else{
-        t = "";
-        while(!s.empty()){
-            t += s.top();
-            s.pop();
-        }
-
-        for(int i = t.length()-1; i >= 0; i--){
-            cout << t[i];
-        }
-    }
+    else cout << s;
 
     return 0;
 }
