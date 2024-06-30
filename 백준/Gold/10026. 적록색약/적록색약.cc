@@ -32,7 +32,6 @@ void bfs(int og_x, int og_y, int curr_region){
             int ny = y + dy[i];
 
             if(is_within_bound(nx, ny) && !bfs_visited[nx][ny] && graph[nx][ny] == graph[og_x][og_y]){
-                bfs_visited[nx][ny] = true;
                 q.push({nx, ny});
                 bfs_visited[nx][ny] = curr_region;
             }
@@ -64,7 +63,6 @@ void colourblind_bfs(int og_x, int og_y, int curr_region){
             int ny = y + dy[i];
 
             if(is_within_bound(nx, ny) && !bfs_visited[nx][ny] && red_or_green(og_x, og_y, nx, ny)){
-                bfs_visited[nx][ny] = true;
                 q.push({nx, ny});
                 bfs_visited[nx][ny] = curr_region;
             }
