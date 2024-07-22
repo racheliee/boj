@@ -3,35 +3,14 @@
 
 using namespace std;
 
-// Custom hash function for int[9]
-struct ArrayHash {
-    size_t operator()(const int* arr) const {
-        std::hash<int> hasher;
-        size_t seed = 0;
-        for (int i = 0; i < 9; ++i) {
-            seed ^= hasher(arr[i]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        }
-        return seed;
-    }
-};
-
-// Custom comparator for int[9]
-struct ArrayEqual {
-    bool operator()(const int* lhs, const int* rhs) const {
-        return std::equal(lhs, lhs + 9, rhs);
-    }
-};
-
 // Node structure
 struct Node {
-    int state[9]; // board state
-    int x, y;     // empty space coordinates
-    int h, g;     // g: depth of node, h: heuristic value (misplaced tiles)
+    int state; // packed board state as a single integer
+    int x, y;  // empty space coordinates
+    int h, g;  // g: depth of node, h: heuristic value (misplaced tiles)
 
-    Node(const int* b, int emptyX, int emptyY, int hVal, int gVal)
-        : x(emptyX), y(emptyY), h(hVal), g(gVal) {
-        copy(b, b + 9, state);
-    }
+    Node(int b, int emptyX, int emptyY, int hVal, int gVal)
+        : state(b), x(emptyX), y(emptyY), h(hVal), g(gVal) {}
 
     // Define a comparator for the priority queue
     bool operator<(const Node &other) const {
@@ -46,6 +25,23 @@ int board[9];
 int pattern[9] = {1, 2, 3, 4, 5, 6, 7, 8, 0};
 int dx[] = {-1, 0, 1, 0};
 int dy[] = {0, -1, 0, 1};
+
+// Helper function to pack the board into an integer
+int pack(const int* b) {
+    int res = 0;
+    for (int i = 0; i < 9; ++i) {
+        res = res * 10 + b[i];
+    }
+    return res;
+}
+
+// Helper function to unpack the integer into a board
+void unpack(int state, int* b) {
+    for (int i = 8; i >= 0; --i) {
+        b[i] = state % 10;
+        state /= 10;
+    }
+}
 
 // Helper function
 void print_board(const int* b) {
@@ -65,13 +61,15 @@ bool is_oob(int y, int x) {
 int calcH(const int* b) {
     int h = 0;
     for (int i = 0; i < 9; ++i) {
-        if(pattern[i] != b[i]) 
-            ++h;
+        if (b[i] != 0) {
+            int target = b[i] - 1;
+            h += abs(i / 3 - target / 3) + abs(i % 3 - target % 3);
+        }
     }
     return h;
 }
 
-void swap_tiles(const int* b, int x, int y, int nx, int ny, int* new_board) {
+void swap_tiles(const int* b, int* new_board, int x, int y, int nx, int ny) {
     copy(b, b + 9, new_board);
     swap(new_board[y * 3 + x], new_board[ny * 3 + nx]);
 }
@@ -80,7 +78,7 @@ bool isGoal(const int* b) {
     return equal(b, b + 9, pattern);
 }
 
-bool isSolvable() {
+bool isSolvable(const int* board) {
     int inv = 0;
     for (int i = 0; i < 9; ++i) {
         if (board[i] == 0)
@@ -95,11 +93,13 @@ bool isSolvable() {
 
 int solve(int initX, int initY) {
     priority_queue<Node> pq;
-    unordered_set<int*, ArrayHash, ArrayEqual> visited; // check visited states
+    unordered_set<int> visited; // check visited states
 
-    pq.push(Node(board, initX, initY, calcH(board), 0));
+    int initial = pack(board);
+    pq.push(Node(initial, initX, initY, calcH(board), 0));
+    visited.insert(initial);
 
-    if (!isSolvable()) {
+    if (!isSolvable(board)) {
         return -1;
     }
 
@@ -107,7 +107,10 @@ int solve(int initX, int initY) {
         Node cur = pq.top();
         pq.pop();
 
-        if (isGoal(cur.state)) {
+        int cur_board[9];
+        unpack(cur.state, cur_board);
+
+        if (isGoal(cur_board)) {
             return cur.g;
         }
 
@@ -119,15 +122,15 @@ int solve(int initX, int initY) {
                 continue;
 
             int next[9];
-            swap_tiles(cur.state, cur.x, cur.y, nx, ny, next);
+            swap_tiles(cur_board, next, cur.x, cur.y, nx, ny);
 
-            if (visited.count(next))
+            int packed_next = pack(next);
+
+            if (visited.count(packed_next))
                 continue;
 
-            pq.push(Node(next, nx, ny, calcH(next), cur.g + 1));
-            int* next_state = new int[9];
-            copy(next, next + 9, next_state);
-            visited.insert(next_state);
+            pq.push(Node(packed_next, nx, ny, calcH(next), cur.g + 1));
+            visited.insert(packed_next);
         }
     }
 
@@ -148,7 +151,6 @@ int main() {
         for (int i = 0; i < 3; ++i) {
             cin >> temp;
             for (int j = 0; j < 3; ++j) {
-                // save the # as 0
                 if (temp[j] == '#') {
                     board[i * 3 + j] = 0;
                     initY = i;
