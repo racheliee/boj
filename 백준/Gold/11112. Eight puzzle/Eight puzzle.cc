@@ -169,8 +169,3 @@ int main() {
 
     return 0;
 }
-
-// https://www.geeksforgeeks.org/check-instance-8-puzzle-solvable/
-// vector <int> runtime too slow
-// changed heuristic
-// int[]로 바꿨는데, 메모리 초과;;
